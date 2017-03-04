@@ -1,0 +1,41 @@
+Weekend Challenge #4
+
+
+The To-Do App
+You are going to create a 'TO DO' application.
+
+Create a front end experience that allows a user to create a Task. stored inside of a database (SQL)
+--input - val - post - post(SQL) -PosticoSQL table
+
+Whenever a Task is created the front end should refresh to show all tasks that need to be completed.
+clear/GET-GET-SQL
+
+Each Task should have an option to 'Complete' or 'Delete'.
+2 buttons - 2onclicks: INSERT to SQL true, POST to SQL DELETE
+
+When a Task is complete, its visual representation should change on the front end. For example, the background of the task container could change from gray to green.
+The complete option should be 'checked off'. (DOM checked)
+
+Each of these are accomplished in CSS, but will need to hook into logic to know whether or not the task is complete.
+Whether or not a Task is complete should also be stored in the database.
+
+Deleting a Task should remove it both from the front end as well as the Database.
+
+Styling
+Make sure that you also show us your best styling chops. We encourage you to try and write pure CSS rather than use Bootstrap.
+
+Approach
+
+
+Database Structure
+
+Please include a database.sql text file in your repo that includes all of your CREATE TABLE queries. This is so we can re-create your database while testing your app.
+
+HARD MODE
+In whatever fashion you would like, create an 'are you sure: yes / no' option when deleting a task. Once again, you can interrupt this however you would like.
+
+PRO MODE
+Adjust the logic so that completed tasks are brought to the bottom of the page, where the remaining tasks left to complete are brought to the top of the list.
+
+Your Work
+Submit Your Work
