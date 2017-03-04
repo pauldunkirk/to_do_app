@@ -63,34 +63,27 @@ app.post('/newTask', function(req, res) {
     }); //end pool connect
 }); // end router.post
 
-// // -> /delete/48
-// router.delete('/delete/:id', function(req, res) {
-//     var bookId = req.params.id;
-//     // DELETE FROM books WHERE id=44;
-//     console.log('book of id to delete: ', bookId);
-//     // Connecting to, and deleting row from the database
-//     pool.connect(function(errorConnectingToDatabase, client, done) {
-//         if (errorConnectingToDatabase) {
-//             // There was an error connecting to the database
-//             console.log('Error connecting to database: ', errorConnectingToDatabase);
-//             res.sendStatus(500);
-//         } else {
-//             // We connected to the database!!!
-//             // Now, we're gonna' delete stuff!!!!!
-//             client.query('DELETE FROM books WHERE id=$1;', // This is the SQL query
-//                 [bookId], // This is the array of things that replaces the $1, $2, $3 in the query
-//                 function(errorMakingQuery, result) { // This is the function that runs after the query takes place
-//                     done();
-//                     if (errorMakingQuery) {
-//                         console.log('Error making the database query: ', errorMakingQuery);
-//                         res.sendStatus(500);
-//                     } else {
-//                         res.sendStatus(202);
-//                     }
-//                 });
-//         }
-//     });
-// }); // closing delete request
+
+app.delete('/delete/:id', function(req, res) {
+    var taskId = req.params.id;
+    console.log('id of task to delete: ', taskId);
+    pool.connect(function(err, client, done) {
+        if (err) {
+            console.log('Error connecting to database: ', err);
+            res.sendStatus(500);
+        } else {
+            client.query('DELETE FROM to_do WHERE id=$1;', [taskId],
+                function(err, result) {
+                    if (err) {
+                        console.log('Error making the database query: ', err);
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(202);
+                    }
+                });
+        }
+    });
+}); // closing delete request
 //
 //
 // // for update -> /save/48

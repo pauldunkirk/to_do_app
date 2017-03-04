@@ -21,8 +21,8 @@ $(document).ready(function() {
                     } else {
                         $newTaskInfo.append('<td>I\'ll get around to it</td>');
                     }
-                    $newTaskInfo.append('<td><input id="checkComplete" type="checkbox" name="checkComplete" value="">Complete task</td>');
-                    $newTaskInfo.append('<td><input id="checkDelete" type="checkbox" name="checkDelete" value="">Delete task</td>');
+                    $newTaskInfo.append('<td><input class="checkComplete" type="checkbox" name="checkComplete" value="">Completed task</td>');
+                    $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
                     $('#taskTableBody').append($newTaskInfo);
                     console.log($newTaskInfo);
                 } // end for loop
@@ -30,11 +30,25 @@ $(document).ready(function() {
         }); //end ajax
     } //end getToDoTable
 
+    $('#taskTableBody').on('click', '.deleteButton', function(){
+      console.log('DeleteButtonClicked');
+      var idOfTaskToDelete = $(this).parent().parent().data().id;
+      console.log('The id to delete is: ', idOfTaskToDelete);
+      $.ajax({
+        type: 'DELETE',
+        url: '/delete/' + idOfTaskToDelete,
+        success: function(response) {
+          console.log(response);
+          getToDoData();
+        } // end success
+      });//end ajax
+    }); //end on click
+
+
     $('#newTaskButton').on('click', function() {
         var newTaskObject = {};
         var description;
         newTaskObject.description = $('#newTaskInput').val();
-        // console.log('newTaskDescription', description);
         console.log('new Task Object', newTaskObject);
         $.ajax({
             type: 'POST',
@@ -46,21 +60,11 @@ $(document).ready(function() {
             } // end success
         }); //end ajax
     }); //end on click
-    //
-    // $('#bookShelf').on('click', '.deleteButton', function(){
-    //   var idOfBookToDelete = $(this).parent().parent().data().id;
-    //   console.log('The id to delete is: ', idOfBookToDelete);
-    //   // for waldo, number 48 -> /books/delete/48
-    //   $.ajax({
-    //     type: 'DELETE',
-    //     url: '/books/delete/' + idOfBookToDelete,
-    //     success: function(response) {
-    //       console.log(response);
-    //       getBookData();
-    //     } // end success
-    //   });//end ajax
-    // }); //end on click
-    //
+
+
+
+
+
     // $('#bookShelf').on('click', '.saveButton', function(){
     //   var idOfBookToSave = $(this).parent().parent().data().id;
     //   var titleOfBookToSave = $(this).parent().parent().find('.bookTitle').val();
