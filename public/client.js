@@ -34,18 +34,23 @@ $(document).ready(function() {
         }); //end ajax
     } //end getToDoTable
 
+
     $('#taskTableBody').on('click', '.deleteButton', function() {
         console.log('DeleteButton Clicked');
         var idOfTaskToDelete = $(this).parent().parent().data().id;
         console.log('The id to delete is: ', idOfTaskToDelete);
-        $.ajax({
-            type: 'DELETE',
-            url: '/delete/' + idOfTaskToDelete,
-            success: function(response) {
-                console.log(response);
-                getToDoData();
-            } // end success
-        }); //end ajax
+        var result = confirm("Are you sure you want to delete?");
+        if (result) {
+            //Logic to delete the item
+            $.ajax({
+                type: 'DELETE',
+                url: '/delete/' + idOfTaskToDelete,
+                success: function(response) {
+                    console.log(response);
+                    getToDoData();
+                } // end success
+            }); //end ajax
+        } // end if confirm to delete
     }); //end on click
 
 
