@@ -17,17 +17,24 @@ $(document).ready(function() {
                     console.log($newTaskInfo);
                     //innerHTML:"<td>Find a genie in a bottle</td><td>I'll get around to it</td><td><input class="checkComplete" type="checkbox" name="checkComplete" value="">Completed task</td><td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>"
                     //innerText:"Find a genie in a bottle	I'll get around to it	Completed task	Delete task"
-                    $newTaskInfo.append('<td>' + currentTaskInfo.description + '</td>'); //show user the author
+                     //show user the autho
                     if (currentTaskInfo.complete === true) {
+                        $newTaskInfo.append('<td>' + currentTaskInfo.description + '</td>');
                         $newTaskInfo.append('<td class="gotErDone">Yes! Got \'er Done!</td>');
                         $newTaskInfo.append('<td><input class="completeButtonChecked" type="checkbox" name="checkComplete" value="completed" checked>Completed task</td>');
+                        $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
+                        $('#taskTableBody').append($newTaskInfo);
                     } else {
+                        $newTaskInfo.append('<td>' + currentTaskInfo.description + '</td>');
                         $newTaskInfo.append('<td>I\'ll get around to it</td>');
                         $newTaskInfo.append('<td><input class="completeButton" type="checkbox" name="checkComplete" value="">Completed task</td>');
+                        $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
+                        $('#taskTableBody').prepend($newTaskInfo);
+                        $('#taskTableBody').append('<hr>');
                     }
 
-                    $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
-                    $('#taskTableBody').append($newTaskInfo);
+
+
                     console.log($newTaskInfo);
                 } // end for loop
             } // end success
