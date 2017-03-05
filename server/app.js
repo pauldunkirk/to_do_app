@@ -84,31 +84,30 @@ app.delete('/delete/:id', function(req, res) {
         }
     });
 }); // closing delete request
-//
-//
-// // for update -> /save/48
-// router.put('/save/:id', function(req, res) {
-//     var bookId = req.params.id;
-//     var bookObject = req.body;
-//     console.log('book of id to save: ', bookId);
-//     pool.connect(function(errorConnectingToDatabase, client, done) {
-//         if (errorConnectingToDatabase) {
-//             console.log('Error connecting to database: ', errorConnectingToDatabase);
-//             res.sendStatus(500);
-//         } else {
-//             // We connected to the database!!!
-//             // Now, we're gonna' update stuff!!!!!
-//             client.query('UPDATE books SET title=$1, author=$2, edition=$3, publisher=$4 WHERE id=$5;', // This is the SQL query
-//                 [bookObject.title, bookObject.author, bookObject.edition, bookObject.publsiher, bookId], // This is the array of things that replaces the $1, $2, $3 in the query
-//                 function(errorMakingQuery, result) { // This is the function that runs after the query takes place
-//                     done();
-//                     if (errorMakingQuery) {
-//                         console.log('Error making the database query: ', errorMakingQuery);
-//                         res.status(500).send('Error making the database query: ', errorMakingQuery);
-//                     } else {
-//                         res.sendStatus(202);
-//                     }
-//                 });
-//         }
-//     });
-// }); // closing put request
+
+
+// for update -> /save/48
+app.put('/update/:id', function(req, res) {
+    var taskId = req.params.id;
+    console.log('id of task to save: ', taskId);
+    // var taskObject = req.body;
+    // console.log('taskObject', taskObject);
+    pool.connect(function(err, client, done) {
+        if (err) {
+            console.log('Error connecting to database: ', err);
+            res.sendStatus(500);
+        } else {
+            client.query('UPDATE to_do SET complete = TRUE WHERE id = $1;', // This is the SQL query
+                [taskId], // This is the array of things that replaces the $1 in the query
+                function(err, result) { // This is the function that runs after the query takes place
+                    done();
+                    if (err) {
+                        console.log('Error making the database query: ', err);
+                        res.status(500).send('Error making the database query: ', err);
+                    } else {
+                        res.sendStatus(202);
+                    } // end 202 else
+                });//end result function
+        } //end else before query
+    }); //end connect
+}); // closing put request

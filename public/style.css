@@ -24,3 +24,6 @@ table {
     margin-left:auto;
     margin-right:auto;
   }
+.gotErDone {
+  color: red;
+}

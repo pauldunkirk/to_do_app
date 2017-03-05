@@ -1,12 +1,12 @@
-console.log('sourced!');
 $(document).ready(function() {
     console.log('jquery was correctly sourced!');
     getToDoData();
+
     function getToDoData() {
         $.ajax({
             type: 'GET',
             url: '/toDoTable',
-            success: function(response) {
+            success: function(response) { //get rows then loop through rows
                 console.log('response', response); //response is an array of task objects (defined by SQL on client side)
                 $('#taskTableBody').empty(); // clears the tasks currently in the table
                 for (var i = 0; i < response.length; i++) { //Loops through the task array (the response array)
@@ -15,13 +15,17 @@ $(document).ready(function() {
                     $newTaskInfo.data('id', currentTaskInfo.id); //adds data ID to the task object so can call it later
                     console.log(currentTaskInfo.id);
                     console.log($newTaskInfo);
+                    //innerHTML:"<td>Find a genie in a bottle</td><td>I'll get around to it</td><td><input class="checkComplete" type="checkbox" name="checkComplete" value="">Completed task</td><td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>"
+                    //innerText:"Find a genie in a bottle	I'll get around to it	Completed task	Delete task"
                     $newTaskInfo.append('<td>' + currentTaskInfo.description + '</td>'); //show user the author
                     if (currentTaskInfo.complete === true) {
-                        $newTaskInfo.append('<td>Yes! Got \'er Done!</td>');
+                        $newTaskInfo.append('<td class="gotErDone">Yes! Got \'er Done!</td>');
+                        $newTaskInfo.append('<td><input class="completeButtonChecked" type="checkbox" name="checkComplete" value="completed" checked>Completed task</td>');
                     } else {
                         $newTaskInfo.append('<td>I\'ll get around to it</td>');
+                        $newTaskInfo.append('<td><input class="completeButton" type="checkbox" name="checkComplete" value="">Completed task</td>');
                     }
-                    $newTaskInfo.append('<td><input class="checkComplete" type="checkbox" name="checkComplete" value="">Completed task</td>');
+
                     $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
                     $('#taskTableBody').append($newTaskInfo);
                     console.log($newTaskInfo);
@@ -30,30 +34,13 @@ $(document).ready(function() {
         }); //end ajax
     } //end getToDoTable
 
-    $('#taskTableBody').on('click', '.deleteButton', function(){
-      console.log('DeleteButtonClicked');
-      var idOfTaskToDelete = $(this).parent().parent().data().id;
-      console.log('The id to delete is: ', idOfTaskToDelete);
-      $.ajax({
-        type: 'DELETE',
-        url: '/delete/' + idOfTaskToDelete,
-        success: function(response) {
-          console.log(response);
-          getToDoData();
-        } // end success
-      });//end ajax
-    }); //end on click
-
-
-    $('#newTaskButton').on('click', function() {
-        var newTaskObject = {};
-        var description;
-        newTaskObject.description = $('#newTaskInput').val();
-        console.log('new Task Object', newTaskObject);
+    $('#taskTableBody').on('click', '.deleteButton', function() {
+        console.log('DeleteButton Clicked');
+        var idOfTaskToDelete = $(this).parent().parent().data().id;
+        console.log('The id to delete is: ', idOfTaskToDelete);
         $.ajax({
-            type: 'POST',
-            url: '/newTask',
-            data: newTaskObject,
+            type: 'DELETE',
+            url: '/delete/' + idOfTaskToDelete,
             success: function(response) {
                 console.log(response);
                 getToDoData();
@@ -62,37 +49,36 @@ $(document).ready(function() {
     }); //end on click
 
 
+    $('#taskTableBody').on('click', '.completeButton', function() {
+        console.log('CompleteButton Clicked');
+        var idOfTaskCompleted = $(this).parent().parent().data().id;
+        console.log('The id of task completed is: ', idOfTaskCompleted);
+    $.ajax({
+        type: 'PUT',
+        url: '/update/' + idOfTaskCompleted,
+        data: idOfTaskCompleted,
+        success: function(response) {
+            console.log(response);
+            getToDoData();
+        } // end success
+    }); //end of AJAX
+}); // end of click
 
-
-
-    // $('#bookShelf').on('click', '.saveButton', function(){
-    //   var idOfBookToSave = $(this).parent().parent().data().id;
-    //   var titleOfBookToSave = $(this).parent().parent().find('.bookTitle').val();
-    //   var authorOfBookToSave = $(this).parent().parent().find('.bookAuthor').val();
-    //   var editionOfBookToSave = $(this).parent().parent().find('.bookEdition').val();
-    //   var publisherOfBookToSave = $(this).parent().parent().find('.bookPublisher').val();
-    //   var bookObjectToSave = {
-    //     title: titleOfBookToSave,
-    //     author: authorOfBookToSave,
-    //     edition: editionOfBookToSave,
-    //     publisher: publisherOfBookToSave
-    //   };
-    //   // for waldo, number 48 -> /books/save/48
-    //   $.ajax({
-    //     type: 'PUT',
-    //     url: '/books/save/' + idOfBookToSave,
-    //     data: bookObjectToSave,
-    //     success: function(response) {
-    //       console.log(response);
-    //       getBookData();
-    //     }, //end success
-    //     error: function(response){
-    //       console.log(response);
-    //       $('#errorMessage').append('<p>'+ response.statusText + '</p>');
-    //     } // end error
-    //   }); //end of AJAX
-    // }); // end of click
-
+$('#newTaskButton').on('click', function() {
+var newTaskObject = {};
+var description;
+newTaskObject.description = $('#newTaskInput').val();
+console.log('new Task Object', newTaskObject);
+$.ajax({
+    type: 'POST',
+    url: '/newTask',
+    data: newTaskObject,
+    success: function(response) {
+        console.log(response);
+        getToDoData();
+    } // end success
+}); //end ajax
+}); //end on click
 
 
 }); //end of doc ready
