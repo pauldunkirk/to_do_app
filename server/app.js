@@ -107,7 +107,7 @@ app.put('/update/:id', function(req, res) {
                     } else {
                         res.sendStatus(202);
                     } // end 202 else
-                });//end result function
+                }); //end result function
         } //end else before query
     }); //end connect
 }); // closing put request

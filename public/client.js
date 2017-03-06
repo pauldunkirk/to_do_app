@@ -1,7 +1,6 @@
 $(document).ready(function() {
     console.log('jquery was correctly sourced!');
     getToDoData();
-
     function getToDoData() {
         $.ajax({
             type: 'GET',
@@ -23,6 +22,7 @@ $(document).ready(function() {
                         $newTaskInfo.append('<td class="gotErDone">Yes! Got \'er Done!</td>');
                         $newTaskInfo.append('<td><input class="completeButtonChecked" type="checkbox" name="checkComplete" value="completed" checked>Completed task</td>');
                         $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
+                        $newTaskInfo.append('</tr>');
                         $('#taskTableBody').append($newTaskInfo);
                     } else {
                         $newTaskInfo.append('<td>' + currentTaskInfo.description + '</td>');
@@ -30,7 +30,7 @@ $(document).ready(function() {
                         $newTaskInfo.append('<td><input class="completeButton" type="checkbox" name="checkComplete" value="">Completed task</td>');
                         $newTaskInfo.append('<td><input class="deleteButton" type="checkbox" name="checkDelete" value="">Delete task</td>');
                         $('#taskTableBody').prepend($newTaskInfo);
-                        $('#taskTableBody').append('<hr>');
+
                     }
 
 
@@ -43,6 +43,23 @@ $(document).ready(function() {
 
 
     $('#taskTableBody').on('click', '.deleteButton', function() {
+
+      // swal({
+      //   title: 'Are you sure?',
+      //   text: "You won't be able to revert this!",
+      //   type: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Yes, delete it!'
+      // }).then(function () {
+      //   swal(
+      //     'Deleted!',
+      //     'Your file has been deleted.',
+      //     'success'
+      //   );
+      // });
+
         console.log('DeleteButton Clicked');
         var idOfTaskToDelete = $(this).parent().parent().data().id;
         console.log('The id to delete is: ', idOfTaskToDelete);
@@ -77,6 +94,7 @@ $(document).ready(function() {
 }); // end of click
 
 $('#newTaskButton').on('click', function() {
+
 var newTaskObject = {};
 var description;
 newTaskObject.description = $('#newTaskInput').val();
@@ -90,7 +108,14 @@ $.ajax({
         getToDoData();
     } // end success
 }); //end ajax
+clearNewTask();
+function clearNewTask(){
+  $('#newTaskInput').val('');
+}
 }); //end on click
+
+
+
 
 
 }); //end of doc ready

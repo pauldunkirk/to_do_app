@@ -4,21 +4,23 @@
 <head>
     <meta charset="utf-8">
     <script src="jquery.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
     <script src="client.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>To-Do</title>
 </head>
 
 <body>
-    <h1>Sula's To-Do List</h1>
+    <h1>To-Do List</h1>
     <div id="inputAndButton">
-    <input id="newTaskInput" type="text" name="" value="" placeholder="Write your task here.">
-    <button id="newTaskButton" type="button" name="button">Create task</button>
-    <hr>
+        <input id="newTaskInput" type="text" name="" value="" placeholder="Write your task here.">
+        <button id="newTaskButton" type="button" name="button">Create task</button>
+        <hr>
     </div>
     <table>
         <thead>
-            <tr>
+            <tr id="tableHeadings">
                 <th>Task</th>
                 <th>Status</th>
                 <th>Mark As Complete</th>

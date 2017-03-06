@@ -1,0 +1,37 @@
+CREATE TABLE to_do (
+ id SERIAL PRIMARY KEY,
+ complete BOOLEAN
+);
+
+ALTER TABLE to_do
+ADD COLUMN description VARCHAR(80);
+
+INSERT INTO to_do (complete, description)
+VALUES
+ (TRUE, 'mow the lawn'),
+ (TRUE, 'feed the cat');
+
+INSERT INTO to_do (description)
+VALUES
+ ('mow the lawn'),
+ ('feed the cat');
+
+DELETE FROM to_do
+WHERE id = 13;
+
+DELETE FROM to_do
+WHERE description = 'feed the cat';
+
+DELETE FROM to_do
+WHERE description = 'mow the lawn';
+
+UPDATE to_do
+SET complete = TRUE
+WHERE description = 'Paint the fence';
+
+SELECT to_do.id, to_do.complete, to_do.description
+FROM to_do;
+
+UPDATE to_do
+SET complete = TRUE
+WHERE id = 21;
